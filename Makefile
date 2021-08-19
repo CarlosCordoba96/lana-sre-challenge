@@ -3,11 +3,8 @@ RESET=\033[0m
 BOLD=\033[1m
 TEST ?= $(shell $(GO) list ./... | grep -v vendor)
 REVISION = $(shell git describe --always)
-ifeq ("$(shell uname)","Darwin")
 GO ?= GO111MODULE=on go
-else
-GO ?= GO111MODULE=on /usr/local/go/bin/go
-endif
+
 
 default: build
 ci: depsdev test integration vet lint
@@ -17,7 +14,7 @@ server:
 
 build: ## Build as linux binary
 	@echo "$(INFO_COLOR)==> $(RESET)$(BOLD)Building$(RESET)"
-	 CGO_ENABLED=0 $(GO) build -o lana-sre-challenge-carlos main.go
+	$(GO) build -o lana-sre-challenge-carlos main.go
 
 test: ## Run test
 	@echo "$(INFO_COLOR)==> $(RESET)$(BOLD)Testing$(RESET)"
