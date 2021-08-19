@@ -10,7 +10,7 @@ default: build
 ci: depsdev test integration vet lint
 
 server:
-	$(GO) run main.go
+	$(GO) run cmd/web/main.go
 
 build: ## Build as linux binary
 	@echo "$(INFO_COLOR)==> $(RESET)$(BOLD)Building$(RESET)"
