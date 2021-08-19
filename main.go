@@ -12,6 +12,7 @@ import (
 
 
 func getProducts (c *gin.Context){
+	shop.NewBasketMEM()
 	c.IndentedJSON(http.StatusOK,shop.Products)
 }
 
