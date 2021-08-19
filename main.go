@@ -3,24 +3,16 @@ package main
 import (
 	"net/http"
 
+	shop "github.com/CarlosCordoba96/lana-sre-challenge/shop"
 	"github.com/gin-gonic/gin"
 )
 
-type Product struct {
-	Code	string
-	Name 	string
-	Price	float64
 
-}
 
-var products = [] Product{
-	{"PEN","Lana Pen", 5.00,},
-	{"TSHIRT","Lana T-shirt",20.00},
-	{"MUG","Lana Coffe Mug", 7.50},
-}
+
 
 func getProducts (c *gin.Context){
-	c.IndentedJSON(http.StatusOK,products)
+	c.IndentedJSON(http.StatusOK,shop.Products)
 }
 
 

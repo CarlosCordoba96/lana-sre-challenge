@@ -37,3 +37,9 @@ lint: ## Exec golint
 	golint -min_confidence 1.1 -set_exit_status $(TEST)
 
 .PHONY: default test
+
+setup-ci:
+	docker-compose up -d 
+
+clean-ci:
+	docker-compose down -v
