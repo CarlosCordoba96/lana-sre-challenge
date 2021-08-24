@@ -10,15 +10,15 @@ MUG          | Lana Coffee Mug   |   7.50€
 
 Various departments have insisted on the following discounts:
 
- * The sales department thinks a buy 2 get 1 free promotion will work best (for each two of the same product, get the second free), and would like this to only apply to `PEN` items.
+- The sales department thinks a buy 2 get 1 free promotion will work best (for each two of the same product, get the second free), and would like this to only apply to `PEN` items.
 
- * The CFO insists that the best way to increase sales is with discounts on bulk purchases (buying x or more of a product, the price of that product is reduced), and requests that if you buy 3 or more `TSHIRT` items, the price per unit should be reduced by 25%.
+- The CFO insists that the best way to increase sales is with discounts on bulk purchases (buying x or more of a product, the price of that product is reduced), and requests that if you buy 3 or more `TSHIRT` items, the price per unit should be reduced by 25%.
 
 Your task is to implement a simple checkout HTTP API.
 
 We'd expect the server to expose the following independent operations:
 
-- Create a new checkout basket
+- Create a new checkout basket X
 - Add a product to a basket
 - Get the total amount in a basket
 - Remove the basket
