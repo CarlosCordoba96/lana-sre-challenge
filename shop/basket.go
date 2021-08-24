@@ -103,7 +103,7 @@ func (um *BasketMem) put(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Found:",requ)
 
 
-	basket, ok := um.basket_arr[basketID]
+	_, ok := um.basket_arr[basketID]
 	if !ok {
 		http.NotFound(w, r)
 		return
@@ -115,7 +115,11 @@ func (um *BasketMem) put(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	
+	_,err = um.Add(product,basketID)
+	if err != nil{
+		http.NotFound(w, r)
+		return
+	}
 
 
 }
