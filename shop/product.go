@@ -56,6 +56,7 @@ func GetTotal(pl [] Product) int{
 		t -= disccount * PEN_PRICE
 
 	}
+	fmt.Println("Total amount: ",t)
 	return t
 }
 

@@ -53,9 +53,8 @@ func (bm*BasketMem) find(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	res := GetTotal(basket)
-
 	json.NewEncoder(w).Encode(PriceResponse{
-		TotalPrice: float64(res/100),
+		TotalPrice: float64(res)/100,
 	})
 }
 
