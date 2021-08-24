@@ -47,8 +47,8 @@ func (um *BasketMem) find(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-
-	json.NewEncoder(w).Encode(basket)
+	res := GetTotal(basket)
+	json.NewEncoder(w).Encode(res)
 }
 
 

@@ -19,7 +19,7 @@ Your task is to implement a simple checkout HTTP API.
 We'd expect the server to expose the following independent operations:
 
 - Create a new checkout basket X
-- Add a product to a basket
+- Add a product to a basket X
 - Get the total amount in a basket
 - Remove the basket
 
