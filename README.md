@@ -20,7 +20,7 @@ We'd expect the server to expose the following independent operations:
 
 - Create a new checkout basket X
 - Add a product to a basket X
-- Get the total amount in a basket
+- Get the total amount in a basket X
 - Remove the basket
 
 Implement a checkout service that fulfills these requirements.
