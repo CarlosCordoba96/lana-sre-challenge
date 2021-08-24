@@ -79,6 +79,47 @@ func (um *BasketMem) Add (p Product,id uint64) ([] Product, error){
 
 }
 
+
+type ProductRequest struct{
+	Product		string	`json:"product"`
+}
+
+func (um *BasketMem) put(w http.ResponseWriter, r *http.Request) {
+
+
+	basketID, err := getBasketID(r)
+	if err != nil {
+		fmt.Println("error basketid")
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	var requ ProductRequest
+	er := json.NewDecoder(r.Body).Decode(&requ)
+	if er != nil {
+		http.Error(w, fmt.Sprintf("{\"error:\": \"failed %s\"}", err), http.StatusNotFound)
+		return
+	}
+	fmt.Println("Found:",requ)
+
+
+	basket, ok := um.basket_arr[basketID]
+	if !ok {
+		http.NotFound(w, r)
+		return
+	}
+
+	
+	product,err := ValidateCode(requ.Product)
+	if err != nil{
+		http.NotFound(w, r)
+		return
+	}
+	
+
+
+}
+
 func (um *BasketMem) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	requesterIP := r.RemoteAddr
 	start := time.Now()
@@ -90,7 +131,7 @@ func (um *BasketMem) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		um.new(w, r)
 	case http.MethodPut:
-		fallthrough
+		um.put(w,r)
 	case http.MethodPatch:
 		fallthrough
 	case http.MethodDelete:
