@@ -3,6 +3,7 @@ package shop
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -20,31 +21,63 @@ func NewBasketMEM(ba  map [uint64][]Product) *BasketMem{
 
 }
 
+
 func getBasketID(r *http.Request) (uint64, error) {
-	userIDStr := r.URL.Query().Get("basket_id")
-	userID, err := strconv.ParseUint(userIDStr, 10, 64)
-	if err != nil || len(userIDStr) == 0 {
-		return userID, errors.New("Unable to get basket_id from request query")
+	basketIDStr := r.URL.Query().Get("basket_id")
+	
+	fmt.Println("found",basketIDStr)
+
+	basketID, err := strconv.ParseUint(basketIDStr, 10, 64)
+	if err != nil || len(basketIDStr) == 0 {
+		return basketID, errors.New("Unable to get basket_id from request query")
 	}
-	return userID, nil
+	return basketID, nil
 }
 
 func (um *BasketMem) find(w http.ResponseWriter, r *http.Request) {
-	userID, err := getBasketID(r)
+	basketID, err := getBasketID(r)
 	if err != nil {
+		fmt.Println("error basketid")
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	user, ok := um.db[userID]
+	basket, ok := um.basket_arr[basketID]
 	if !ok {
 		http.NotFound(w, r)
 		return
 	}
 
-	json.NewEncoder(w).Encode(user)
+	json.NewEncoder(w).Encode(basket)
 }
 
+
+
+
+
+func (um *BasketMem) new(w http.ResponseWriter, r *http.Request) {
+
+
+	lastID++
+	um.basket_arr[lastID] = []Product{}
+	fmt.Printf("%+v\n", um)
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(struct {
+		ID      uint64 `json:"id"`
+	}{lastID})
+}
+
+
+
+func (um *BasketMem) Add (p Product,id uint64) ([] Product, error){
+	if _,ok := um.basket_arr[id]; !ok{
+		return nil, fmt.Errorf("Basket not found")
+
+	}
+	um.basket_arr[id] = append(um.basket_arr[id],p)
+	return um.basket_arr[id],nil
+
+}
 
 func (um *BasketMem) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	requesterIP := r.RemoteAddr
@@ -59,9 +92,9 @@ func (um *BasketMem) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPut:
 		fallthrough
 	case http.MethodPatch:
-		um.patch(w, r)
+		fallthrough
 	case http.MethodDelete:
-		um.delete(w, r)
+		fallthrough
 	default:
 		http.Error(w, "", http.StatusMethodNotAllowed)
 	}
