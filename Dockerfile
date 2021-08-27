@@ -7,7 +7,7 @@ RUN go mod download
 COPY . . 
 RUN make build
 
-FROM scratch AS bin
-COPY --from=builder /app/lana-sre-challenge-carlos lana-sre-challenge-carlos
+FROM scratch 
+COPY --from=builder /app/server /go/bin/hello
 EXPOSE 8080
-ENTRYPOINT [ "/lana-sre-challenge-carlos" ]
+ENTRYPOINT ["go/bin/hello"]

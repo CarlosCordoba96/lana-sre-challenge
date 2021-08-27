@@ -1,0 +1,45 @@
+name: Generate release
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  # Run tests.
+  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Prepare tag
+        id: prep
+        run: |
+          echo "TAG_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build docker
+        run: |
+          make  build-docker dockerTag=$TAG_NAME
+
+      - name: Push image
+        run: |
+          make  push dockerTag=$TAG_NAME
+
+      - name: Clean containers
+        if: ${{ always() }}
+        run: |
+          make -e clean
