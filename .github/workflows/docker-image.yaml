@@ -38,8 +38,3 @@ jobs:
       - name: Push image
         run: |
           make  push dockerTag=$TAG_NAME
-
-      - name: Clean containers
-        if: ${{ always() }}
-        run: |
-          make -e clean

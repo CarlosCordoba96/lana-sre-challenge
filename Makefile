@@ -20,7 +20,7 @@ build-docker:
 	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 dockerTag=$(dockerTag) $(docker-compose) build 
 
 push:
-	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 dockerTag=$(dockerTag) $(docker-compose) 
+	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 dockerTag=$(dockerTag) $(docker-compose) push
 
 test: ## Run test
 	@echo "$(INFO_COLOR)==> $(RESET)$(BOLD)Testing$(RESET)"
