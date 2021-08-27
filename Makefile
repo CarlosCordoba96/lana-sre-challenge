@@ -19,7 +19,7 @@ build: ## Build as linux binary
 build-docker:
 	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 dockerTag=$(dockerTag) $(docker-compose) build 
 
-build-docker:
+push:
 	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 dockerTag=$(dockerTag) $(docker-compose) 
 
 test: ## Run test
