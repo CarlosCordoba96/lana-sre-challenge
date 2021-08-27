@@ -3,7 +3,7 @@ RESET=\033[0m
 BOLD=\033[1m
 TEST ?= $(shell $(GO) list ./... | grep -v vendor)
 REVISION = $(shell git describe --always)
-GO ?= GO111MODULE=on go
+GO ?= GO111MODULE=on CGO_ENABLED=0 go 
 
 
 default: build
@@ -14,7 +14,13 @@ server:
 
 build: ## Build as linux binary
 	@echo "$(INFO_COLOR)==> $(RESET)$(BOLD)Building$(RESET)"
-	$(GO) build -o lana-sre-challenge-carlos main.go
+	$(GO) build  -o  server main.go
+
+build-docker:
+	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 dockerTag=$(dockerTag) $(docker-compose) build 
+
+build-docker:
+	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 dockerTag=$(dockerTag) $(docker-compose) push
 
 test: ## Run test
 	@echo "$(INFO_COLOR)==> $(RESET)$(BOLD)Testing$(RESET)"
@@ -40,3 +46,6 @@ setup-ci:
 
 clean-ci:
 	docker-compose down -v
+
+docker-compose := COMPOSE_HTTP_TIMEOUT=300 docker-compose --project-directory .
+dockerTag := test-sandbox
