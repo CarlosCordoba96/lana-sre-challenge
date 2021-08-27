@@ -39,6 +39,7 @@ func getBasketID(r *http.Request) (uint64, error) {
 	return basketID, nil
 }
 
+//get basket from Id
 func (bm*BasketMem) find(w http.ResponseWriter, r *http.Request) {
 	basketID, err := getBasketID(r)
 	if err != nil {
@@ -61,7 +62,7 @@ func (bm*BasketMem) find(w http.ResponseWriter, r *http.Request) {
 
 
 
-
+//new basket
 func (bm*BasketMem) new(w http.ResponseWriter, r *http.Request) {
 
 
@@ -75,7 +76,7 @@ func (bm*BasketMem) new(w http.ResponseWriter, r *http.Request) {
 }
 
 
-
+//add new product to basket
 func (bm*BasketMem) Add(p Product,id uint64) ([] Product, error){
 	if _,ok := bm.basket_arr[id]; !ok{
 		return nil, fmt.Errorf("Basket not found")
@@ -86,6 +87,7 @@ func (bm*BasketMem) Add(p Product,id uint64) ([] Product, error){
 
 }
 
+//delete basket
 func (bm*BasketMem) Delete(id uint64) error {
 	if _, ok := bm.basket_arr[id]; !ok {
 		return fmt.Errorf("no such basket found")

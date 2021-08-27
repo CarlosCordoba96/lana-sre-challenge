@@ -35,7 +35,7 @@ var Products = [] Product{
 		 MUG_PRICE,
 	},
 }
-
+//Total price of a basket
 func GetTotal(pl [] Product) int{
 	cart := map[string]int{
 		"PEN":    0,
