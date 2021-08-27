@@ -55,3 +55,5 @@ Examples:
 - Commit messages (include .git in zip, avoid big bulk changes)
 - Enable monitoring on the application
 - Curl examples to test the endpoints
+
+TODO: Change examples.sh to golang tests (No time)
