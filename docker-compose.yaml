@@ -2,7 +2,7 @@ version: "3.5"
 
 services:
   go-server:
-    image: ghcr.io/lana-sre-challenge:${dockerTag}
+    image: ghcr.io/CarlosCordoba96/lana-sre-challenge:${dockerTag}
 
     build:
       context: .
