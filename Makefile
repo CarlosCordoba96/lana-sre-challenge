@@ -3,7 +3,7 @@ RESET=\033[0m
 BOLD=\033[1m
 TEST ?= $(shell $(GO) list ./... | grep -v vendor)
 REVISION = $(shell git describe --always)
-GO ?= GO111MODULE=on CGO_ENABLED=0 go 
+GO ?= GO111MODULE=on go 
 
 
 default: build
@@ -14,13 +14,13 @@ server:
 
 build: ## Build as linux binary
 	@echo "$(INFO_COLOR)==> $(RESET)$(BOLD)Building$(RESET)"
-	$(GO) build  -o  server main.go
+	CGO_ENABLED=0 $(GO) build  -o  server main.go
 
 build-docker:
 	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 dockerTag=$(dockerTag) $(docker-compose) build 
 
 build-docker:
-	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 dockerTag=$(dockerTag) $(docker-compose) push
+	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 dockerTag=$(dockerTag) $(docker-compose) 
 
 test: ## Run test
 	@echo "$(INFO_COLOR)==> $(RESET)$(BOLD)Testing$(RESET)"
